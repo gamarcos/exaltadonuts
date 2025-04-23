@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exaltadonuts</title>
+    <link rel="stylesheet" href="src/style/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" id="order">Realizar Pedido</div>
+            <div class="tab" id="summary">Resumo</div>
+            <div class="tab" id="info">Informações</div>
+        </div>
+
+        <div id="order-view">
+            <h1>Exaltadonuts</h1>
+            <div class="section">
+                <div class="section-title">Escolha a massa</div>
+                <div class="chip-group" id="batter-group"></div>
+            </div>
+            <div class="section">
+                <div class="section-title">Escolha o recheio</div>
+                <div class="chip-group" id="filling-group"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Adicionar recheio extra</div>
+                <div class="chip-group" id="filling-extra-group">
+                    <div class="chip">Sim</div>
+                    <div class="chip">Não</div>
+                </div>
+                <div class="section-info">o valor de R$ 1,50 é adicionado</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Escolha a cobertura</div>
+                <div class="chip-group" id="topping-group"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Escolha a decoração</div>
+                <div class="chip-group" id="decoration-group"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Quantidade</div>
+                <div class="quantity">
+                    <input type="number" id="quantity" min="1" value="1">
+                </div>
+            </div>
+
+            <button class="submit-btn" id="add-btn">Adicionar</button>
+        </div>
+
+        <!-- Summary Tab -->
+        <div id="summary-view" style="display: none;"></div>
+
+        <div id="info-view" style="display: none;">
+            <div class="section">
+                <div class="section-title">Preencha seus dados</div>
+                <div class="input-group">
+                    <input class="input-info" type="text" id="name" placeholder="Digite seu nome" required>
+                </div>
+                <div class="input-group">
+                    <input class="input-info" type="email" id="email" placeholder="Digite seu e-mail" required>
+                </div>
+                <div class="input-group">
+                    <input class="input-info" type="tel" id="phone" placeholder="Digite seu telefone" required>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="send-btn">Enviar</button>
+        </div>
+
+        <div id="snackbar"></div>
+    </div>
+
+    <script type="module" src="src/js/order.js"></script>
+    <script type="module" src="src/js/summary.js"></script>
+    <script type="module" src="src/js/navigation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        emailjs.init("y-DXSTiFkcEnuXWsv")
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('send-btn').addEventListener('click', (e) => {
+                // send()
+                // sessionStorage.removeItem('summary')
+                console.log("CLICK")
+            })
+        })
+
+        function showFeedBack(isSuccess) {
+            var style = isSuccess ? 'success' : 'error'
+            var snackbar = document.getElementById("snackbar");
+            snackbar.className = `show ${style}`;
+            snackbar.textContent = isSuccess ? 'Pedido realizado com sucesso!' : 'Ops! tivemos um problema.'
+            setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        }
+
+        function send() {
+            const message = buildMessage();
+            emailjs.send("service_x69b5gr", "template_c6gnr5x", {
+                name: "Exaltadonuts",
+                message: message
+            })
+                .then(() => {
+                    showFeedBack(true)
+                }, (error) => {
+                    showFeedBack(false)
+                });
+        }
+
+        function buildMessage() {
+            const summary = sessionStorage.getItem('summary')
+            const data = JSON.parse(summary)
+            const infodata = `
+                Nome: ${document.getElementById("name").value}
+                Email: ${document.getElementById("email").value}
+                Telefone: ${document.getElementById("phone").value}
+                ------------------------------------------------------------
+
+            `
+
+            return infodata + data
+                .map((item, index) => {
+                    const linhas = Object.entries(item)
+                        .map(([key, value]) => `• ${key}: ${value}`)
+                        .join('\n');
+                    return `Item ${index + 1}:\n${linhas}`;
+                })
+                .join('\n\n');
+        }
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.bindNavigation((id) => {
+                if (id == 'summary') window.initSummary();
+            });
+        });
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const sendButton = document.getElementById('send-btn');
+
+            nameInput.addEventListener('input', validateInputs);
+            emailInput.addEventListener('input', validateInputs);
+            phoneInput.addEventListener('input', validateInputs);
+
+            sendButton.disabled = true;
+
+            function validateInputs() {
+                const isNameFilled = nameInput.value.trim() !== '';
+                const isEmailFilled = emailInput.value.trim() !== '';
+                const isPhoneFilled = phoneInput.value.trim() !== '';
+                sendButton.disabled = !(isNameFilled && isEmailFilled && isPhoneFilled && hasOrder());
+            }
+
+            function hasOrder() {
+                const summary = sessionStorage.getItem('summary')
+                const data = JSON.parse(summary)
+                return data?.length > 0
+            }
+        })
+
+    </script>
+</body>
+
+</html>

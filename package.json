@@ -1,0 +1,15 @@
+{
+  "name": "exaltadonuts",
+  "version": "1.0.0",
+  "description": "Exataldonuts Page",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Marcos",
+  "license": "MIT",
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1"
+  }
+}

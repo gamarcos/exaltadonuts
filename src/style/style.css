@@ -1,0 +1,207 @@
+:root {
+    --primary-color: #FF2D55;
+    --secondary-color: #5856D6;
+    --text-color: #1D1D26;
+    --light-gray: #F2F2F7;
+    --medium-gray: #E5E5EA;
+    --white: #FFFFFF;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--medium-gray);
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 12px 16px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #8E8E93;
+    position: relative;
+    cursor: pointer;
+}
+
+.tab.active {
+    color: var(--primary-color);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+/* Section styles */
+.section {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.section-info {
+    font-weight: 300;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+/* Chip styles */
+.chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.chip {
+    padding: 6px 12px;
+    border-radius: 16px;
+    background-color: var(--light-gray);
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.chip.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.chip.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Quantity */
+.quantity {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.quantity input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.input-info {
+   width: -webkit-fill-available;
+   height: 32px;
+   padding: 5px;
+   margin-bottom: 10px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+}
+
+/* Button */
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 16px;
+}
+
+/* Summary tab (hidden by default) */
+#summary-tab {
+    display: none;
+}
+
+.summary-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px; 
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    border-radius: 8%;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+  }
+  
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+
+  #snackbar.success {
+    background-color: #00d62e;
+    color: #fff;
+  }
+
+  #snackbar.error {
+    background-color: #d60000;
+    color: #fff;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
