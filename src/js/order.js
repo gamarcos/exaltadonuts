@@ -1,5 +1,5 @@
-import { batters, fillings, toppings, decoration, labels } from './data.js'
-import { save } from './storage.js'
+import { batters, fillings, toppings, decoration } from './data.js'
+import { update } from './storage.js'
 
 let summaryItem = new Map()
 
@@ -12,13 +12,14 @@ function initOrder() {
 function bindAddOrderEvent() {
     document.getElementById('add-btn').addEventListener('click', () => {
         updateQuantity()
+        addUUID()
         saveCurrentOrder()
         clearLocalOrder()
     });
 }
 
 function saveCurrentOrder() {
-   save('summary', [summaryItem])
+    update('summary', [summaryItem])
 }
 
 function buildOptions() {
@@ -68,13 +69,18 @@ function selectChip(chip, groupName) {
     })
 
     chip.classList.add('selected')
-    summaryItem.set(labels[groupName], chip.textContent)
+    summaryItem.set(groupName, chip.textContent)
 }
 
 function updateQuantity() {
     const quantityInput = document.getElementById("quantity")
     const value = quantityInput.value
-    summaryItem.set(labels['quantity'], value)
+    summaryItem.set('quantity', value)
+}
+
+function addUUID() {
+    const id = crypto.randomUUID()
+    summaryItem.set('id', id)
 }
 
 
