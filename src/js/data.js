@@ -1,6 +1,6 @@
 export const batters = [
     "Chocolate",
-    "Baulinha",
+    "Baunilha",
     "Churros"
 ]
 export const fillings = [
@@ -28,5 +28,6 @@ export const labels = {
     'filling-extra': 'Recheio extra',
     'topping': 'Cobertura',
     'decoration': 'Decoração',
-    'quantity': 'Quantidade'
+    'quantity': 'Quantidade',
+    'id': 'id'
 };
